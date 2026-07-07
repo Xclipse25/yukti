@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Yukti</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="popup-container">
+    <div class="popup-header">
+      <img src="icons/logo1.png" class="popup-logo" alt="Yukti" />
+      <div>
+        <h1>Yukti</h1>
+        <p class="popup-tagline">One click. Expert prompt. Every message.</p>
+      </div>
+    </div>
+
+    <p id="stats" class="stats-line"></p>
+
+    <div class="setting-column" id="memoryBox">
+      <label>🧠 What Yukti has learned about you</label>
+      <p class="hint">Learned locally from your usage. Delete anything — Yukti won't re-learn it.</p>
+      <div id="memoryList"><p class="hint">Nothing yet — Yukti learns as you enhance.</p></div>
+    </div>
+
+    <div class="setting-row">
+      <label for="enabled">Enable Yukti</label>
+      <input type="checkbox" id="enabled" />
+    </div>
+
+    <div class="setting-row">
+      <label for="piiShield" title="Emails, phones, cards & API keys are replaced with placeholders locally before enhancement, then restored. Nothing sensitive leaves your browser.">
+        PII Shield 🛡️
+      </label>
+      <input type="checkbox" id="piiShield" />
+    </div>
+
+    <div class="setting-column">
+      <label>Your context profile</label>
+      <input id="profileAbout" placeholder="About you — e.g. 3rd-year CS student" />
+      <input id="profileProject" placeholder="Current project — e.g. React + Firebase app" />
+      <input id="profileTone" placeholder="Preferred tone — e.g. concise, practical" />
+    </div>
+
+    <div class="setting-column">
+      <label for="dictionary">📖 Your dictionary</label>
+      <p class="hint">Names Yukti must never change — products, projects, acronyms. Comma-separated.</p>
+      <input id="dictionary" placeholder="e.g. Yukti, PromptPilot, GDG VIzag" />
+    </div>
+
+    <div class="setting-column">
+      <label for="voiceLang">🎤 Voice input language</label>
+      <select id="voiceLang">
+        <option value="en-IN">English (India)</option>
+        <option value="hi-IN">हिन्दी (Hindi)</option>
+        <option value="en-US">English (US)</option>
+        <option value="te-IN">తెలుగు (Telugu)</option>
+        <option value="ta-IN">தமிழ் (Tamil)</option>
+      </select>
+    </div>
+
+    <p class="shortcut-hint">⌨️ Ctrl+M enhance · 🎤 speak · ⇄ continue in another AI</p>
+
+    <button id="saveBtn">Save</button>
+    <p id="status"></p>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

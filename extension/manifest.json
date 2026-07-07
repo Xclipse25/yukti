@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "Yukti \u2014 One-Click Prompt Expert",
+  "version": "3.1.0",
+  "description": "Speak or type it rough. One click and it's an expert prompt \u2014 Yukti learns you, guards your data, and follows you across every AI.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "enhance-inline": {
+      "suggested_key": {
+        "default": "Ctrl+M",
+        "mac": "Command+M"
+      },
+      "description": "Enhance the prompt in the chat box"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://copilot.microsoft.com/*",
+        "https://www.perplexity.ai/*",
+        "https://*.perplexity.ai/*",
+        "https://chat.deepseek.com/*",
+        "https://chat.mistral.ai/*",
+        "https://grok.com/*",
+        "https://x.com/*",
+        "https://poe.com/*",
+        "https://www.meta.ai/*",
+        "https://huggingface.co/*",
+        "https://www.midjourney.com/*",
+        "https://app.leonardo.ai/*",
+        "https://ideogram.ai/*",
+        "https://www.krea.ai/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Yukti",
+    "default_icon": {
+      "16": "icons/logo1.png",
+      "48": "icons/logo1.png",
+      "128": "icons/logo1.png"
+    }
+  },
+  "icons": {
+    "16": "icons/logo1.png",
+    "48": "icons/logo1.png",
+    "128": "icons/logo1.png"
+  }
+}

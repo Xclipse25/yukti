@@ -1,0 +1,5 @@
+{
+  "functions": {
+    "api/enhance.js": { "maxDuration": 30 }
+  }
+}
