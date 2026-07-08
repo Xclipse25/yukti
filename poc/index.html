@@ -4,261 +4,87 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yukti — Speak it rough. Send it expert.</title>
+<script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="theme.css" />
 <style>
-  :root {
-    /* Sky / day */
-    --sky-1: #4d7fc9; --sky-2: #8fc7e8; --sky-3: #d9efef;
-    /* Grass / ground */
-    --grass-top: #6cbf3f; --grass-side: #4a7d2a; --grass-side2: #365c1e;
-    --dirt: #8b5a2b; --dirt-dark: #6b4420; --dirt-darker: #4a2f16;
-    /* Stone / cave */
-    --stone: #8a8a8a; --stone-dark: #5c5c5c; --stone-darker: #3a3a3a;
-    --cave-1: #171326; --cave-2: #241e38;
-    /* Night */
-    --night-1: #0a0e2a; --night-2: #1c2b52;
-    /* Accents */
-    --wood: #7a5230; --wood-dark: #5a3c22; --wood-darker: #3e2814;
-    --gold: #f5c518; --diamond: #4fd8e0; --redstone: #e0483e;
-    --ink: #f5f1e6; --ink-dim: #cfd3e4; --ink-faint: #9aa0bd;
-    --panel: rgba(20, 16, 34, 0.72); --line: rgba(255,255,255,0.14);
-  }
-  * { box-sizing: border-box; margin: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--night-1); color: var(--ink);
-    font-family: "Inter", system-ui, sans-serif; line-height: 1.6;
-    overflow-x: hidden;
-  }
-  h1, h2, h3, .display, .btn, .logo, .kicker, .score { font-family: "Press Start 2P", monospace; }
-  .mono { font-family: "JetBrains Mono", monospace; }
-  a { color: inherit; }
-  img, svg { max-width: 100%; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+  /* ---- Hero ---- */
+  .hero { position: relative; padding: 96px 0 60px; overflow: hidden; }
+  .glow { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: -1; animation: drift 24s ease-in-out infinite alternate; }
+  .glow--a { width: 520px; height: 520px; top: -220px; left: -120px; background: radial-gradient(circle, rgba(99,102,241,0.28), transparent 70%); }
+  .glow--b { width: 460px; height: 460px; top: -160px; right: -160px; background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%); animation-delay: -8s; }
+  @keyframes drift { from { transform: translate(0, 0); } to { transform: translate(40px, 30px); } }
 
-  /* ---------------------------------------------------------------------
-     Reveal-on-scroll
-  --------------------------------------------------------------------- */
-  .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.in-view { opacity: 1; transform: translateY(0); }
-  .reveal.r1 { transition-delay: 0.05s; } .reveal.r2 { transition-delay: 0.15s; } .reveal.r3 { transition-delay: 0.25s; }
+  .js .enter { opacity: 0; transform: translateY(18px); animation: enter 0.8s var(--ease) forwards; }
+  @keyframes enter { to { opacity: 1; transform: none; } }
+  .enter.e1 { animation-delay: 0.05s; } .enter.e2 { animation-delay: 0.16s; } .enter.e3 { animation-delay: 0.27s; } .enter.e4 { animation-delay: 0.38s; }
 
-  /* ---------------------------------------------------------------------
-     Pixel panel system (Minecraft GUI-style bevel)
-  --------------------------------------------------------------------- */
-  .pixel-panel {
-    background: var(--panel);
-    border: 3px solid var(--stone-darker);
-    box-shadow:
-      inset 2px 2px 0 rgba(255,255,255,0.14),
-      inset -3px -3px 0 rgba(0,0,0,0.35),
-      0 6px 0 rgba(0,0,0,0.35);
-    border-radius: 0;
-    backdrop-filter: blur(2px);
-  }
-  .btn {
-    display: inline-block; text-decoration: none; text-align: center;
-    background: linear-gradient(180deg, var(--grass-top), var(--grass-side));
-    color: #fff; text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.45);
-    font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase;
-    padding: 15px 20px; border: 3px solid #2e4d1a; cursor: pointer;
-    box-shadow:
-      inset 2px 2px 0 rgba(255,255,255,0.35),
-      inset -3px -3px 0 rgba(0,0,0,0.3),
-      0 5px 0 #2e4d1a;
-    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
-  }
-  .btn:hover { filter: brightness(1.12); }
-  .btn:active {
-    transform: translateY(5px);
-    box-shadow: inset 2px 2px 0 rgba(255,255,255,0.35), inset -3px -3px 0 rgba(0,0,0,0.3);
-  }
-  .btn.ghost {
-    background: linear-gradient(180deg, #a9a9a9, #6f6f6f);
-    border-color: var(--stone-darker); color: #1c1c1c; text-shadow: none;
-    box-shadow: inset 2px 2px 0 rgba(255,255,255,0.4), inset -3px -3px 0 rgba(0,0,0,0.3), 0 5px 0 var(--stone-darker);
-  }
-  .btn:disabled { filter: grayscale(0.4) brightness(0.8); cursor: wait; }
+  .hero h1 { font-size: clamp(38px, 6vw, 66px); line-height: 1.06; letter-spacing: -0.03em; max-width: 700px; }
+  .hero h1 span { color: var(--ink-faint); }
+  .hero p.sub { color: var(--ink-dim); font-size: 18px; margin: 20px 0 0; max-width: 580px; }
+  .hero .actions { display: flex; gap: 14px; margin-top: 30px; }
 
-  /* ---------------------------------------------------------------------
-     Nav — wood plank bar
-  --------------------------------------------------------------------- */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: repeating-linear-gradient(90deg, var(--wood) 0 42px, var(--wood-dark) 42px 46px);
-    border-bottom: 4px solid var(--wood-darker);
-    box-shadow: 0 4px 0 rgba(0,0,0,0.25);
-  }
-  .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 24px; max-width: 1080px; margin: 0 auto; }
-  .logo { display: flex; align-items: center; gap: 10px; font-size: 13px; text-decoration: none; color: var(--ink); text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.5); white-space: nowrap; }
-  .gem { width: 14px; height: 14px; background: var(--diamond); transform: rotate(45deg); box-shadow: inset -3px -3px 0 rgba(0,0,0,0.3), inset 2px 2px 0 rgba(255,255,255,0.6); animation: sparkle 2.4s ease-in-out infinite; flex-shrink: 0; }
-  @keyframes sparkle { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.5); } }
-  .nav-links { display: flex; gap: 22px; align-items: center; font-size: 14px; }
-  .nav-links a:not(.btn) { color: var(--ink-dim); text-decoration: none; font-weight: 500; }
-  .nav-links a:not(.btn):hover { color: var(--gold); }
-  @media (max-width: 720px) { .nav-links a:not(.btn) { display: none; } }
-
-  /* ---------------------------------------------------------------------
-     Terrain divider — blocky crenellated seam between sections
-  --------------------------------------------------------------------- */
-  .terrain { display: flex; height: 26px; overflow: hidden; position: relative; z-index: 2; }
-  .terrain i { flex: 1 0 20px; background: var(--edge, var(--grass-top)); align-self: flex-end; }
-  .terrain i:nth-child(8n+1), .terrain i:nth-child(8n+2), .terrain i:nth-child(8n+3), .terrain i:nth-child(8n+4) { height: 26px; }
-  .terrain i:nth-child(8n+5), .terrain i:nth-child(8n+6), .terrain i:nth-child(8n+7), .terrain i:nth-child(8n+8) { height: 12px; }
-
-  /* ---------------------------------------------------------------------
-     Hero — day sky
-  --------------------------------------------------------------------- */
-  .hero {
-    position: relative; padding: 84px 0 56px; overflow: hidden;
-    background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-3) 100%);
-    color: #12203a;
-  }
-  .hero .ink-dark { color: rgba(18,32,58,0.72); }
-  .sun { position: absolute; top: 18px; right: 7%; width: 60px; height: 60px; background: var(--gold);
-    transform: rotate(45deg); animation: sparkle 3.6s ease-in-out infinite;
-    box-shadow: 0 0 0 10px rgba(245,197,24,0.18), 0 0 40px rgba(245,197,24,0.55); z-index: 1; }
-  .cloud { position: absolute; height: 26px; background: #fff; opacity: 0.9; z-index: 1;
-    box-shadow: 26px -12px 0 0 #fff, -26px -6px 0 0 #fff, 52px -6px 0 0 #fff, 0 12px 0 0 #fff, 26px 12px 0 0 #fff; }
-  .cloud--a { top: 12px; width: 60px; left: -140px; animation: drift 34s linear infinite; }
-  .cloud--b { top: 32px; width: 50px; left: -220px; opacity: 0.7; animation: drift 46s linear infinite; animation-delay: -12s; }
-  .cloud--c { top: 4px; width: 44px; left: -320px; opacity: 0.6; animation: drift 58s linear infinite; animation-delay: -30s; }
-  @keyframes drift { from { transform: translateX(0); } to { transform: translateX(160vw); } }
-
-  .voxel-float { position: absolute; z-index: 1; animation: bob 4.5s ease-in-out infinite; }
-  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
-  .voxel { position: relative; width: 52px; height: 52px; transform-style: preserve-3d; transform: rotateX(-26deg) rotateY(38deg); }
-  .voxel .face { position: absolute; width: 52px; height: 52px; }
-  .voxel .top { transform: rotateX(90deg) translateZ(26px); }
-  .voxel .left { transform: rotateY(-90deg) translateZ(26px); }
-  .voxel .front { transform: translateZ(26px); }
-  .voxel--grass .top { background: var(--grass-top); }
-  .voxel--grass .left { background: linear-gradient(to bottom, var(--grass-side2) 0 22%, var(--dirt-dark) 22% 100%); }
-  .voxel--grass .front { background: linear-gradient(to bottom, var(--grass-side) 0 22%, var(--dirt) 22% 100%); }
-  .voxel--dirt .top { background: var(--dirt); }
-  .voxel--dirt .left { background: var(--dirt-darker); }
-  .voxel--dirt .front { background: var(--dirt-dark); }
-  .voxel--gold .top, .voxel--gold .left, .voxel--gold .front { background: var(--stone); }
-  .voxel--gold .top { background-image: radial-gradient(circle at 30% 30%, var(--gold) 0 6px, transparent 7px), radial-gradient(circle at 70% 65%, var(--gold) 0 5px, transparent 6px); }
-  .voxel--gold .left { background: var(--stone-darker); background-image: radial-gradient(circle at 50% 40%, var(--gold) 0 5px, transparent 6px); }
-  .voxel--gold .front { background: var(--stone-dark); background-image: radial-gradient(circle at 40% 60%, var(--gold) 0 5px, transparent 6px), radial-gradient(circle at 70% 30%, var(--gold) 0 4px, transparent 5px); }
-
-  .hero-inner { position: relative; z-index: 2; }
-  .hero h1 { font-size: clamp(18px, 3.6vw, 34px); line-height: 1.7; letter-spacing: 0.5px; max-width: 640px; text-shadow: 2px 2px 0 rgba(255,255,255,0.35); }
-  .hero h1 em { font-style: normal; color: #fff; -webkit-text-stroke: 1px #12203a; }
-  .hero p.sub { font-size: 17px; margin: 20px 0 0; max-width: 600px; font-weight: 500; }
-
-  /* ---------------------------------------------------------------------
-     Live playground
-  --------------------------------------------------------------------- */
-  .play { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; position: relative; z-index: 2; }
+  .play { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   @media (max-width: 800px) { .play { grid-template-columns: 1fr; } }
-  .panel { padding: 20px; display: flex; flex-direction: column; gap: 12px; color: var(--ink); }
-  .panel h2 { font-size: 11px; letter-spacing: 1.5px; color: var(--gold); text-shadow: 1px 1px 0 rgba(0,0,0,0.4); }
-  textarea, input[type="text"], select {
-    width: 100%; background: #0b1226; border: 2px solid var(--stone-darker); color: var(--ink);
-    font: 14px/1.5 "JetBrains Mono", monospace; padding: 12px; resize: vertical;
-    box-shadow: inset 2px 2px 0 rgba(0,0,0,0.4), inset -1px -1px 0 rgba(255,255,255,0.08);
-  }
-  textarea:focus, input:focus, select:focus { outline: 2px solid var(--diamond); outline-offset: 1px; }
-  textarea { min-height: 120px; }
-  #output { min-height: 170px; white-space: pre-wrap; font: 13.5px/1.6 "JetBrains Mono", monospace; color: var(--ink); }
+  .panel { padding: 22px; display: flex; flex-direction: column; gap: 13px; }
+  .panel h2 { font-family: "Inter"; font-size: 11.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
+  textarea { min-height: 118px; font-family: "JetBrains Mono", monospace; font-size: 13.5px; }
+  #output { min-height: 168px; white-space: pre-wrap; font: 13px/1.6 "JetBrains Mono", monospace; color: var(--ink); }
   #output:empty::before { content: "Your expert prompt appears here."; color: var(--ink-faint); font-family: "Inter"; }
-  label { font-size: 11px; color: var(--ink-dim); display: block; margin-bottom: 6px; letter-spacing: 0.5px; }
 
-  .meter { display: none; align-items: center; gap: 12px; }
+  .meter { display: none; align-items: center; gap: 14px; }
   .meter.show { display: flex; }
-  .score { font-size: 15px; min-width: 40px; text-align: center; text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.4); }
-  .score small { display: block; font-size: 7px; font-family: "Inter"; font-weight: 600; color: var(--ink-faint); letter-spacing: 1px; margin-top: 4px; }
-  .bar { flex: 1; height: 14px; background: #0b1226; border: 2px solid var(--stone-darker); position: relative; overflow: hidden; }
-  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(180deg, #9de86b 0 4px, var(--grass-top) 4px 100%); transition: width 0.9s cubic-bezier(0.2,0.8,0.2,1); }
-  #reason { color: #9de86b; font-size: 13px; }
+  .score { font-family: "Space Grotesk"; font-size: 26px; font-weight: 700; min-width: 48px; text-align: center; }
+  .score small { display: block; font-size: 9px; font-weight: 500; color: var(--ink-faint); letter-spacing: 1.5px; font-family: "Inter"; margin-top: 4px; }
+  .bar { flex: 1; height: 6px; background: var(--bg-input); border-radius: 999px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, var(--ink-faint), var(--accent)); transition: width 1s var(--ease); }
+  #reason { color: var(--success); font-size: 13px; }
   #status { color: var(--ink-dim); font-size: 13px; min-height: 18px; }
 
-  /* ---------------------------------------------------------------------
-     Sections — shared scaffolding
-  --------------------------------------------------------------------- */
-  section { padding: 60px 0 70px; position: relative; }
-  .kicker { display: inline-block; font-size: 10px; letter-spacing: 1.5px; color: var(--gold); text-shadow: 1.5px 1.5px 0 rgba(0,0,0,0.4); }
-  section h2.title { font-size: clamp(17px, 2.6vw, 26px); line-height: 1.7; margin: 16px 0 16px; text-shadow: 2px 2px 0 rgba(0,0,0,0.35); }
-  section p.lead { color: var(--ink-dim); max-width: 620px; font-size: 16px; }
+  /* ---- Sections ---- */
+  section { padding: 88px 0; border-top: 1px solid var(--border); }
+  section h2.title { font-size: clamp(26px, 4vw, 40px); letter-spacing: -0.02em; margin: 14px 0 16px; max-width: 620px; }
+  section p.lead { color: var(--ink-dim); max-width: 600px; font-size: 16px; }
 
-  /* How it works — grass + dirt strip */
-  #how { background: linear-gradient(180deg, var(--grass-top) 0 90px, var(--dirt) 90px 100%); }
-  #how .kicker, #how h2.title { color: #1c3a0e; text-shadow: 1.5px 1.5px 0 rgba(255,255,255,0.25); }
-  #how p.lead { color: rgba(28,58,14,0.75); }
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 40px; }
   @media (max-width: 800px) { .steps { grid-template-columns: 1fr; } }
-  .step { background: var(--wood); border: 3px solid var(--wood-darker);
-    box-shadow: inset 2px 2px 0 rgba(255,255,255,0.18), inset -3px -3px 0 rgba(0,0,0,0.3), 0 6px 0 rgba(0,0,0,0.3);
-    padding: 22px; transition: transform 0.15s ease; }
-  .step:hover { transform: translateY(-4px); }
-  .slot { width: 44px; height: 44px; display: grid; place-items: center; font-size: 22px; background: rgba(0,0,0,0.28);
-    border: 2px solid rgba(0,0,0,0.4); box-shadow: inset 2px 2px 0 rgba(0,0,0,0.35), inset -1px -1px 0 rgba(255,255,255,0.1); }
-  .step h3 { font-family: "Inter"; font-size: 17px; margin: 14px 0 6px; color: #fff; }
-  .step p { color: rgba(255,255,255,0.78); font-size: 14px; }
+  .step { background: var(--bg-elev); padding: 30px 26px; transition: background 0.25s var(--ease); }
+  .step:hover { background: var(--bg-elev-2); }
+  .step .num { font-family: "Space Grotesk"; font-size: 13px; color: var(--accent); font-weight: 700; }
+  .step h3 { font-size: 18px; margin: 14px 0 8px; font-weight: 600; }
+  .step p { color: var(--ink-dim); font-size: 14.5px; }
 
-  /* PII Shield — cave */
-  #shield { background: radial-gradient(900px 500px at 50% 0%, var(--cave-2), var(--cave-1)); }
-  .ore-sparkle { position: absolute; width: 6px; height: 6px; background: var(--diamond); box-shadow: 0 0 8px 2px var(--diamond); animation: twinkle 2.6s ease-in-out infinite; }
-  @keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
-  .shield-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 34px; align-items: center; margin-top: 30px; }
+  /* PII Shield */
+  .shield-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 34px; align-items: center; margin-top: 36px; }
   @media (max-width: 800px) { .shield-grid { grid-template-columns: 1fr; } }
-  .redact-demo { padding: 22px; font: 13px/1.9 "JetBrains Mono", monospace; color: var(--ink); }
-  .redact-demo .row-label { font-family: "Inter"; font-size: 10.5px; letter-spacing: 1.5px; color: var(--ink-faint); text-transform: uppercase; display: block; margin: 14px 0 4px; }
+  .redact-demo { padding: 24px; font: 13px/2 "JetBrains Mono", monospace; }
+  .redact-demo .row-label { font-family: "Inter"; font-size: 10.5px; letter-spacing: 1.5px; color: var(--ink-faint); text-transform: uppercase; display: block; margin: 16px 0 4px; }
   .redact-demo .row-label:first-child { margin-top: 0; }
-  .chip { background: #2a1e0a; color: var(--gold); border: 1px solid #6b5416; padding: 1px 7px; font-size: 12px; }
-  .chip.real { background: #0f2e1c; color: #7ee6a8; border-color: #1d5a38; }
-  .shield-points { display: flex; flex-direction: column; gap: 16px; }
-  .shield-points div { display: flex; gap: 14px; align-items: flex-start; }
-  .shield-points .dot { flex-shrink: 0; width: 30px; height: 30px; background: var(--stone-dark); border: 2px solid var(--stone-darker);
-    box-shadow: inset 2px 2px 0 rgba(255,255,255,0.15), inset -2px -2px 0 rgba(0,0,0,0.3); display: grid; place-items: center; font-size: 14px; margin-top: 2px; }
+  .chip { background: var(--bg-input); color: var(--ink-dim); border: 1px solid var(--border-strong); border-radius: 5px; padding: 1px 7px; font-size: 12px; }
+  .chip.real { background: var(--accent-soft); color: #c7c9fd; border-color: rgba(99,102,241,0.4); }
+  .shield-points { display: flex; flex-direction: column; gap: 18px; }
+  .shield-points div { display: flex; gap: 16px; align-items: flex-start; }
+  .shield-points .dot { flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px; background: var(--bg-elev-2); border: 1px solid var(--border); display: grid; place-items: center; font-size: 14px; margin-top: 2px; }
   .shield-points p { color: var(--ink-dim); font-size: 14.5px; }
   .shield-points b { color: var(--ink); }
 
-  /* Tools — surface again */
-  #tools { background: linear-gradient(180deg, var(--sky-2), var(--grass-top) 85%); color: #12203a; }
-  #tools .kicker, #tools h2.title { color: #12203a; text-shadow: 1.5px 1.5px 0 rgba(255,255,255,0.3); }
-  #tools p.lead { color: rgba(18,32,58,0.72); }
-  .tool-cloud { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-  .tool-cloud span { background: var(--wood); border: 2px solid var(--wood-darker); color: #fff;
-    box-shadow: inset 1.5px 1.5px 0 rgba(255,255,255,0.18), inset -2px -2px 0 rgba(0,0,0,0.3);
-    padding: 8px 16px; font-size: 13.5px; transition: transform 0.12s ease; }
-  .tool-cloud span:hover { transform: translateY(-3px); }
-  .tool-cloud span.hot { background: var(--grass-side); border-color: #2e4d1a; }
+  /* Tools marquee */
+  .tool-tag { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 999px; padding: 9px 18px; font-size: 14px; color: var(--ink-dim); white-space: nowrap; }
+  .tool-tag.hot { color: var(--ink); border-color: var(--border-strong); }
+  .marquee { margin-top: 40px; }
 
-  /* CTA — night sky */
-  #cta { background: linear-gradient(180deg, var(--night-1), var(--night-2)); overflow: hidden; }
-  .star { position: absolute; width: 3px; height: 3px; background: #fff; animation: twinkle 3s ease-in-out infinite; }
-  .moon { position: absolute; top: 24px; right: 10%; width: 60px; height: 60px; background: #eef1f8;
-    box-shadow: -14px -6px 0 -6px #cfd6e6 inset, 10px 14px 0 -10px #cfd6e6 inset, 0 0 30px rgba(238,241,248,0.5); }
-  .cta-box { padding: 48px 34px; text-align: center; margin-top: 8px; position: relative; z-index: 2; }
-  .cta-box h2 { font-size: clamp(15px, 2.6vw, 22px); line-height: 1.8; text-shadow: 2px 2px 0 rgba(0,0,0,0.4); }
-  .cta-box p { color: var(--ink-dim); margin: 16px auto 26px; max-width: 480px; font-family: "Inter"; }
-
-  /* Footer — wood */
-  footer { background: repeating-linear-gradient(90deg, var(--wood-dark) 0 46px, var(--wood-darker) 46px 50px);
-    border-top: 4px solid var(--wood-darker); padding: 26px 0 40px; color: var(--ink-dim); font-size: 13px; }
-  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-  footer a { text-decoration: underline; }
-
-  :focus-visible { outline: 2px solid var(--diamond); outline-offset: 2px; }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  }
-  @media (max-width: 700px) {
-    .voxel-float, .cloud, .ore-sparkle, .star, .moon, .sun { display: none; }
-  }
+  /* CTA */
+  .cta-box { padding: 60px 40px; text-align: center; margin-top: 8px; }
+  .cta-box h2 { font-size: clamp(28px, 4vw, 42px); letter-spacing: -0.02em; }
+  .cta-box p { color: var(--ink-dim); margin: 16px auto 30px; max-width: 480px; }
 </style>
 </head>
 <body>
 
 <nav>
   <div class="nav-inner">
-    <a class="logo" href="#"><span class="gem"></span>YUKTI</a>
+    <a class="logo" href="#"><span class="dot"></span>Yukti</a>
     <div class="nav-links">
       <a href="#how">How it works</a>
       <a href="#shield">PII Shield</a>
@@ -269,26 +95,14 @@
 </nav>
 
 <header class="hero">
-  <div class="sun" aria-hidden="true"></div>
-  <div class="cloud cloud--a" aria-hidden="true"></div>
-  <div class="cloud cloud--b" aria-hidden="true"></div>
-  <div class="cloud cloud--c" aria-hidden="true"></div>
-  <div class="voxel-float" style="top:64px; left:5%; animation-delay:0s;" aria-hidden="true">
-    <div class="voxel voxel--grass"><div class="face top"></div><div class="face left"></div><div class="face front"></div></div>
-  </div>
-  <div class="voxel-float" style="top:118px; right:18%; left:auto; animation-delay:-2.5s;" aria-hidden="true">
-    <div class="voxel voxel--gold" style="width:40px;height:40px;"><div class="face top" style="width:40px;height:40px;"></div><div class="face left" style="width:40px;height:40px; transform:rotateY(-90deg) translateZ(20px);"></div><div class="face front" style="width:40px;height:40px; transform:translateZ(20px);"></div></div>
-  </div>
-  <div class="voxel-float" style="top:230px; right:9%; left:auto; animation-delay:-1.5s;" aria-hidden="true">
-    <div class="voxel voxel--dirt" style="width:34px;height:34px; transform:rotateX(-26deg) rotateY(38deg) scale(0.65);"><div class="face top"></div><div class="face left"></div><div class="face front"></div></div>
-  </div>
+  <div class="glow glow--a" aria-hidden="true"></div>
+  <div class="glow glow--b" aria-hidden="true"></div>
+  <div class="wrap">
+    <h1 class="enter e1">Speak it rough.<br /><span>Send it expert.</span></h1>
+    <p class="sub enter e2">Yukti lives inside ChatGPT, Claude, Gemini and 15+ AI tools. Type or speak a rough thought — one click turns it into the prompt an expert would have written. On every message.</p>
 
-  <div class="wrap hero-inner">
-    <h1>Speak it rough.<br /><em>Send it expert.</em></h1>
-    <p class="sub">Yukti lives inside ChatGPT, Claude, Gemini and 15+ AI tools. Type or speak a rough thought — one click turns it into the prompt an expert would have written. On every message.</p>
-
-    <div class="play">
-      <div class="panel pixel-panel">
+    <div class="play enter e3">
+      <div class="panel card">
         <h2>Try it — your rough prompt</h2>
         <textarea id="rough" placeholder="e.g. make me a workout plan im busy and skinny"></textarea>
         <div>
@@ -301,15 +115,15 @@
             <option value="midjourney">Midjourney (image)</option>
           </select>
         </div>
-        <button class="btn" id="go">✨ Enhance</button>
+        <button class="btn accent" id="go">✨ Enhance</button>
         <p id="status"></p>
       </div>
-      <div class="panel pixel-panel">
+      <div class="panel card">
         <h2>Expert version</h2>
         <div class="meter" id="meter">
-          <div class="score" id="before" style="color:var(--gold)">–<small>BEFORE</small></div>
+          <div class="score" id="before" style="color:var(--ink-faint)"><span class="num">–</span><small>BEFORE</small></div>
           <div class="bar"><i id="fill"></i></div>
-          <div class="score" id="after" style="color:#9de86b">–<small>AFTER</small></div>
+          <div class="score" id="after" style="color:var(--accent)"><span class="num">–</span><small>AFTER</small></div>
         </div>
         <p id="reason"></p>
         <div id="output"></div>
@@ -319,38 +133,26 @@
   </div>
 </header>
 
-<div class="terrain" style="--edge: var(--grass-top);" aria-hidden="true">
-  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-</div>
-
 <section id="how">
   <div class="wrap">
-    <span class="kicker">How it works</span>
-    <h2 class="title">No new app. No copy-paste. It's just there.</h2>
+    <span class="kicker reveal">How it works</span>
+    <h2 class="title reveal d1">No new app. No copy-paste. It's just there.</h2>
     <div class="steps">
-      <div class="step reveal r1"><div class="slot">🎤</div><h3>Type or speak</h3><p>Write roughly, in English, Hindi, Hinglish, Telugu or Tamil — or just say it out loud. Half-formed thoughts are fine. That's the point.</p></div>
-      <div class="step reveal r2"><div class="slot">✨</div><h3>One click</h3><p>Yukti rewrites your prompt in place — tuned for the exact AI you're using, with your context woven in. Undo anytime.</p></div>
-      <div class="step reveal r3"><div class="slot">🧠</div><h3>It learns you</h3><p>Your stack, your style, your language — learned on your device, visible in your settings, deletable anytime. Every day it gets more yours.</p></div>
+      <div class="step reveal d1"><div class="num">01</div><h3>Type or speak</h3><p>Write roughly, in English, Hindi, Hinglish, Telugu or Tamil — or just say it out loud. Half-formed thoughts are fine. That's the point.</p></div>
+      <div class="step reveal d2"><div class="num">02</div><h3>One click</h3><p>Yukti rewrites your prompt in place — tuned for the exact AI you're using, with your context woven in. Undo anytime.</p></div>
+      <div class="step reveal d3"><div class="num">03</div><h3>It learns you</h3><p>Your stack, your style, your language — learned on your device, visible in your settings, deletable anytime. Every day it gets more yours.</p></div>
     </div>
   </div>
 </section>
 
-<div class="terrain" style="--edge: var(--cave-2); transform: scaleY(-1);" aria-hidden="true">
-  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-</div>
-
 <section id="shield">
-  <div class="ore-sparkle" style="top:18%; left:10%; animation-delay:-0.4s;" aria-hidden="true"></div>
-  <div class="ore-sparkle" style="top:60%; left:6%; animation-delay:-1.6s;" aria-hidden="true"></div>
-  <div class="ore-sparkle" style="top:30%; right:8%; animation-delay:-0.9s;" aria-hidden="true"></div>
-  <div class="ore-sparkle" style="top:75%; right:14%; animation-delay:-2s;" aria-hidden="true"></div>
   <div class="wrap">
-    <span class="kicker">PII Shield</span>
-    <h2 class="title">Your private data never leaves your browser.</h2>
-    <p class="lead">Before your prompt goes anywhere, Yukti blacks out the private parts — like redacting a letter before sending it to an editor — and fills them back in when the polished version returns. All inside your browser.</p>
+    <span class="kicker reveal">PII Shield</span>
+    <h2 class="title reveal d1">Your private data never leaves your browser.</h2>
+    <p class="lead reveal d1">Before your prompt goes anywhere, Yukti blacks out the private parts — like redacting a letter before sending it to an editor — and fills them back in when the polished version returns. All inside your browser.</p>
 
     <div class="shield-grid">
-      <div class="redact-demo pixel-panel reveal r1">
+      <div class="redact-demo card reveal d2">
         <span class="row-label">You type</span>
         email <span class="chip real">priya@company.com</span> that her card <span class="chip real">4111 1111 1111 1111</span> was charged twice
         <span class="row-label">What actually leaves your browser</span>
@@ -358,7 +160,7 @@
         <span class="row-label">What lands back in your chat box</span>
         Write a professional email to <span class="chip real">priya@company.com</span> explaining that her card <span class="chip real">4111 1111 1111 1111</span> was charged twice…
       </div>
-      <div class="shield-points reveal r2">
+      <div class="shield-points reveal d3">
         <div><span class="dot">🔍</span><p><b>Detected locally.</b> Emails, phone numbers, card numbers and secret keys are found by Yukti on your device — no server involved.</p></div>
         <div><span class="dot">🏷️</span><p><b>Swapped for codenames.</b> Only the codenamed version travels to the enhancement engine. Yukti's servers never see the real values.</p></div>
         <div><span class="dot">🔓</span><p><b>Restored at home.</b> When the expert prompt returns, your browser swaps the real values back in. Your final prompt is complete — and nothing private ever left.</p></div>
@@ -367,63 +169,51 @@
   </div>
 </section>
 
-<div class="terrain" style="--edge: var(--sky-2);" aria-hidden="true">
-  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-</div>
-
 <section id="tools">
   <div class="wrap">
-    <span class="kicker">Works where you work</span>
-    <h2 class="title">One layer above every AI.</h2>
-    <p class="lead">Pick your tools in the dashboard — Yukti activates only where you want it, and carries your conversation context between them.</p>
-    <div class="tool-cloud reveal r1">
-      <span class="hot">ChatGPT</span><span class="hot">Claude</span><span class="hot">Gemini</span><span class="hot">Copilot</span>
-      <span>Perplexity</span><span>DeepSeek</span><span>Mistral</span><span>Grok</span><span>Poe</span><span>Meta AI</span>
-      <span>HuggingChat</span><span>Midjourney</span><span>Leonardo</span><span>Ideogram</span><span>Krea</span>
-    </div>
+    <span class="kicker reveal">Works where you work</span>
+    <h2 class="title reveal d1">One layer above every AI.</h2>
+    <p class="lead reveal d1">Pick your tools in the dashboard — Yukti activates only where you want it, and carries your conversation context between them.</p>
+  </div>
+  <div class="marquee reveal d2">
+    <div class="marquee-track" id="marqueeTrack"></div>
   </div>
 </section>
 
-<div class="terrain" style="--edge: var(--night-1); transform: scaleY(-1);" aria-hidden="true">
-  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-</div>
-
 <section id="cta">
-  <div class="moon" aria-hidden="true"></div>
-  <div class="star" style="top:20%; left:12%; animation-delay:-0.5s;" aria-hidden="true"></div>
-  <div class="star" style="top:35%; left:30%; animation-delay:-1.2s;" aria-hidden="true"></div>
-  <div class="star" style="top:15%; left:55%; animation-delay:-2s;" aria-hidden="true"></div>
-  <div class="star" style="top:50%; left:75%; animation-delay:-0.8s;" aria-hidden="true"></div>
-  <div class="star" style="top:65%; left:20%; animation-delay:-1.8s;" aria-hidden="true"></div>
-  <div class="star" style="top:22%; left:85%; animation-delay:-2.4s;" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="cta-box pixel-panel reveal">
+    <div class="cta-box card reveal">
       <h2>Free. Private. Yours in two minutes.</h2>
       <p>Sign in, choose your AI tools, and get the extension. 30 enhancements a day, on us.</p>
-      <a class="btn" href="/app.html">Sign in · Get the extension</a>
+      <a class="btn accent" href="/app.html">Sign in · Get the extension</a>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <span>Yukti✦ — Think better. Build faster.</span>
+    <span>Yukti — Think better. Build faster.</span>
     <span>Built in India · <a href="/app.html">Dashboard</a></span>
   </div>
 </footer>
 
+<script src="theme.js"></script>
 <script>
-  const revealEls = document.querySelectorAll(".reveal");
-  if (window.IntersectionObserver) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in-view"); io.unobserve(e.target); } });
-    }, { threshold: 0.15 });
-    revealEls.forEach((el) => io.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add("in-view"));
+  // Tool marquee — duplicate the list once for a seamless loop.
+  const TOOLS = [
+    ["ChatGPT", true], ["Claude", true], ["Gemini", true], ["Copilot", true],
+    ["Perplexity"], ["DeepSeek"], ["Mistral"], ["Grok"], ["Poe"], ["Meta AI"],
+    ["HuggingChat"], ["Midjourney"], ["Leonardo"], ["Ideogram"], ["Krea"],
+  ];
+  const track = document.getElementById("marqueeTrack");
+  for (let i = 0; i < 2; i++) {
+    for (const [name, hot] of TOOLS) {
+      const span = document.createElement("span");
+      span.className = "tool-tag" + (hot ? " hot" : "");
+      span.textContent = name;
+      track.appendChild(span);
+    }
   }
-  // Safety net: never leave content permanently hidden if the observer misfires.
-  setTimeout(() => revealEls.forEach((el) => el.classList.add("in-view")), 4000);
 </script>
 
 <script>
@@ -461,8 +251,8 @@
       $("status").textContent = data.remaining != null ? data.remaining + " free enhancements left today" : "";
       if (data.originalScore != null) {
         $("meter").classList.add("show");
-        $("before").firstChild.textContent = data.originalScore;
-        $("after").firstChild.textContent = data.score;
+        countTo($("before").querySelector(".num"), data.originalScore);
+        countTo($("after").querySelector(".num"), data.score);
         requestAnimationFrame(() => { $("fill").style.width = data.score + "%"; });
       }
     } catch (err) {

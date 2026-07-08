@@ -1,0 +1,138 @@
+/* Yukti — shared design system (Monochrome Premium)
+   Near-black/white base, one sparing indigo accent, restrained motion. */
+
+:root {
+  --bg: #050505;
+  --bg-elev: #0d0d0e;
+  --bg-elev-2: #131315;
+  --bg-input: #0a0a0b;
+  --border: rgba(255,255,255,0.09);
+  --border-strong: rgba(255,255,255,0.18);
+  --ink: #f5f5f7;
+  --ink-dim: #a1a1aa;
+  --ink-faint: #6b6b70;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --accent-soft: rgba(99,102,241,0.14);
+  --success: #34d399;
+  --error: #f87171;
+  --radius: 14px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: "Inter", system-ui, sans-serif; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+h1, h2, h3, .display { font-family: "Space Grotesk", sans-serif; letter-spacing: -0.02em; font-weight: 600; }
+.mono { font-family: "JetBrains Mono", monospace; }
+a { color: inherit; }
+::selection { background: var(--accent-soft); color: var(--ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.wrap--narrow { max-width: 860px; }
+
+/* ---------------------------------------------------------------------
+   Nav — blurred, gains a hairline border once the page scrolls
+--------------------------------------------------------------------- */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(5,5,5,0.5); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+nav.scrolled { border-bottom-color: var(--border); background: rgba(5,5,5,0.82); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 24px; max-width: 1120px; margin: 0 auto; }
+.nav-inner.wrap--narrow { max-width: 860px; }
+.logo { display: flex; align-items: center; gap: 9px; font-family: "Space Grotesk"; font-weight: 700; font-size: 18px; letter-spacing: -0.01em; text-decoration: none; color: var(--ink); }
+.logo .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px 1px var(--accent); animation: pulse-dot 2.4s ease-in-out infinite; flex-shrink: 0; }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+.nav-links { display: flex; gap: 26px; align-items: center; font-size: 14px; }
+.nav-links a:not(.btn) { color: var(--ink-dim); text-decoration: none; transition: color 0.2s var(--ease); }
+.nav-links a:not(.btn):hover { color: var(--ink); }
+@media (max-width: 720px) { .nav-links a:not(.btn) { display: none; } }
+
+/* ---------------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--ink); color: #060607; text-decoration: none;
+  font-weight: 600; font-size: 14.5px; padding: 12px 22px; border-radius: 10px;
+  border: 1px solid transparent; cursor: pointer; font-family: "Inter";
+  transition: transform 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 10px 30px rgba(255,255,255,0.08); }
+.btn:active { transform: translateY(0) scale(0.97); }
+.btn.accent { background: var(--accent); color: #fff; }
+.btn.accent:hover { background: var(--accent-hover); box-shadow: 0 10px 30px rgba(99,102,241,0.4); }
+.btn.ghost { background: transparent; border-color: var(--border-strong); color: var(--ink); box-shadow: none; }
+.btn.ghost:hover { border-color: var(--ink-dim); background: rgba(255,255,255,0.04); box-shadow: none; }
+.btn:disabled { opacity: 0.5; cursor: default; transform: none; box-shadow: none; }
+
+/* ---------------------------------------------------------------------
+   Panels / cards — cursor-following spotlight highlight
+--------------------------------------------------------------------- */
+.panel, .card {
+  background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius);
+  position: relative; overflow: hidden; isolation: isolate;
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.panel::before, .card::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0;
+  transition: opacity 0.4s var(--ease);
+  background: radial-gradient(480px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.06), transparent 60%);
+  pointer-events: none;
+}
+.panel:hover, .card:hover { border-color: var(--border-strong); }
+.panel:hover::before, .card:hover::before { opacity: 1; }
+
+/* ---------------------------------------------------------------------
+   Inputs
+--------------------------------------------------------------------- */
+textarea, select, input[type="text"] {
+  width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px;
+  color: var(--ink); font: 14px/1.5 "Inter", sans-serif; padding: 12px 14px;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); resize: vertical;
+}
+textarea:focus, select:focus, input:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+label { font-size: 12.5px; color: var(--ink-dim); display: block; margin-bottom: 6px; }
+
+/* ---------------------------------------------------------------------
+   Section scaffolding
+--------------------------------------------------------------------- */
+.kicker { display: inline-block; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+
+/* ---------------------------------------------------------------------
+   Scroll reveal — content is fully visible with no JS (progressive
+   enhancement); a tiny inline script adds .js to <html> before paint.
+--------------------------------------------------------------------- */
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal.in-view { opacity: 1 !important; transform: none !important; }
+.reveal.d1 { transition-delay: 0.08s; } .reveal.d2 { transition-delay: 0.16s; } .reveal.d3 { transition-delay: 0.24s; }
+
+/* ---------------------------------------------------------------------
+   Marquee — auto-scrolling row, pauses on hover
+--------------------------------------------------------------------- */
+.marquee {
+  overflow: hidden; position: relative;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track { display: flex; gap: 12px; width: max-content; animation: marquee 32s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+footer { border-top: 1px solid var(--border); padding: 30px 0 44px; color: var(--ink-faint); font-size: 13px; }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+footer a { text-decoration: underline; text-underline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
