@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yukti — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0b1020; --panel: #121a30; --panel2: #172038; --line: #263252;
+    --ink: #eef2ff; --muted: #8b96b8; --indigo: #6366f1; --indigo-d: #4f46e5;
+    --amber: #fbbf24; --green: #4ade80; --red: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: "Inter", system-ui, sans-serif; line-height: 1.6; }
+  h1, h2, h3 { font-family: "Space Grotesk", sans-serif; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+  nav { border-bottom: 1px solid var(--line); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; max-width: 860px; margin: 0 auto; }
+  .logo { font-family: "Space Grotesk"; font-weight: 700; font-size: 22px; text-decoration: none; color: var(--ink); }
+  .logo b { color: var(--amber); }
+  .who { font-size: 13px; color: var(--muted); display: flex; gap: 14px; align-items: center; }
+  .who button { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 8px; padding: 5px 12px; cursor: pointer; font-family: "Inter"; font-size: 12px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; background: var(--indigo); color: #fff;
+    text-decoration: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px;
+    border: 0; cursor: pointer; font-family: "Inter"; transition: transform 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+  .btn:disabled { opacity: 0.55; cursor: default; transform: none; }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 26px; margin-top: 22px; }
+  .card h2 { font-size: 20px; margin-bottom: 6px; }
+  .card p.sub { color: var(--muted); font-size: 14px; }
+  .kicker { color: var(--amber); font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase; }
+
+  /* Login gate */
+  #gate { text-align: center; padding: 70px 0 30px; }
+  #gate h1 { font-size: clamp(28px, 5vw, 40px); letter-spacing: -1px; }
+  #gate p { color: var(--muted); margin: 14px auto 30px; max-width: 440px; }
+
+  /* Tool grid */
+  .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 18px; }
+  .tool {
+    display: flex; align-items: center; gap: 10px; background: #0b1226; border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 14px; cursor: pointer; font-size: 14px; user-select: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .tool input { accent-color: var(--indigo); width: 17px; height: 17px; }
+  .tool.on { border-color: var(--indigo); background: #131c3d; }
+  .save-row { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
+  #saveMsg { color: var(--green); font-size: 13px; }
+
+  /* Steps */
+  ol.install { margin: 16px 0 0 20px; color: var(--muted); font-size: 14px; display: flex; flex-direction: column; gap: 8px; }
+  ol.install b { color: var(--ink); }
+  code { background: #0b1226; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; font-size: 12.5px; color: var(--amber); }
+  #connectMsg { font-size: 13px; margin-top: 10px; min-height: 18px; }
+  .locked { opacity: 0.45; pointer-events: none; filter: saturate(0.6); }
+  :focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="/">Yukti<b>✦</b></a>
+    <div class="who" id="who"></div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ============ LOGIN GATE ============ -->
+  <div id="gate">
+    <h1>Your Yukti, your rules.</h1>
+    <p>Sign in to choose which AI tools Yukti works in, sync your settings, and get the extension.</p>
+    <button class="btn" id="loginBtn">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.3 6.1 29.4 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2C40.9 35.6 44 30.3 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      Continue with Google
+    </button>
+    <p id="gateMsg" style="min-height:20px"></p>
+  </div>
+
+  <!-- ============ DASHBOARD (hidden until login) ============ -->
+  <div id="dash" style="display:none">
+
+    <div class="card">
+      <span class="kicker">Step 1</span>
+      <h2>Choose where Yukti works</h2>
+      <p class="sub">Yukti activates only in the tools you pick — and the ⇄ "continue in another AI" menu shows only these.</p>
+      <div class="tools" id="toolGrid"></div>
+      <div class="save-row">
+        <button class="btn" id="saveBtn">Save my tools</button>
+        <span id="saveMsg"></span>
+      </div>
+    </div>
+
+    <div class="card" id="extCard">
+      <span class="kicker">Step 2</span>
+      <h2>Get the extension</h2>
+      <p class="sub">Yukti isn't on the Chrome Web Store yet — early access installs in under a minute.</p>
+      <ol class="install">
+        <li><b>Download:</b> <a class="btn ghost" id="dlBtn" href="https://github.com/Xclipse25/yukti/archive/refs/heads/main.zip" style="padding:8px 16px;font-size:13px">Download Yukti (zip)</a> &nbsp;and unzip it.</li>
+        <li>Open <code>chrome://extensions</code>, switch on <b>Developer mode</b> (top-right).</li>
+        <li>Click <b>Load unpacked</b> → select the <code>extension</code> folder from the unzipped download.</li>
+      </ol>
+    </div>
+
+    <div class="card" id="connectCard">
+      <span class="kicker">Step 3</span>
+      <h2>Connect the extension</h2>
+      <p class="sub">Links this account to the extension so your tool choices apply everywhere, instantly.</p>
+      <div class="save-row">
+        <button class="btn" id="connectBtn">Connect Yukti extension</button>
+      </div>
+      <p id="connectMsg"></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- Firebase compat SDK (free tier — Auth + Firestore, no build step) -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+  // ==== CONFIG — paste your full config from Firebase console (Project settings → Your apps) ====
+  const firebaseConfig = {
+    apiKey: "AIzaSyCI0fCve6l3CJPU5Y_5bSq1yNsjbnpOEEc",
+    authDomain: "promptpilot-3a012.firebaseapp.com",
+    projectId: "promptpilot-3a012",
+    appId: "1:195550709543:web:a1d1e554bb8287e38b8b02", // from Firebase console
+  };
+  // Your extension's ID from chrome://extensions (after loading it once):
+  const EXTENSION_ID = "ijhkkjgcnmopdjamdjoegcajgcapjigp";
+
+  const ALL_TOOLS = [
+    "ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity", "DeepSeek",
+    "Mistral", "Grok", "Poe", "Meta AI", "HuggingChat",
+    "Midjourney", "Leonardo", "Ideogram", "Krea",
+  ];
+  const DEFAULT_ON = ["ChatGPT", "Claude", "Gemini", "Copilot"];
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const $ = (id) => document.getElementById(id);
+  let currentUser = null;
+  let selected = new Set(DEFAULT_ON);
+
+  // ---- Auth flow ----
+  $("loginBtn").addEventListener("click", async () => {
+    try {
+      await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    } catch (err) {
+      $("gateMsg").textContent = err.message;
+      $("gateMsg").style.color = "var(--red)";
+    }
+  });
+
+  auth.onAuthStateChanged(async (user) => {
+    currentUser = user;
+    if (!user) {
+      $("gate").style.display = "block";
+      $("dash").style.display = "none";
+      $("who").textContent = "";
+      return;
+    }
+    $("gate").style.display = "none";
+    $("dash").style.display = "block";
+    renderWho(user);
+    await loadSettings(user);
+    renderTools();
+  });
+
+  function renderWho(user) {
+    const who = $("who");
+    who.textContent = "";
+    const span = document.createElement("span");
+    span.textContent = user.email;
+    const out = document.createElement("button");
+    out.textContent = "Sign out";
+    out.onclick = () => auth.signOut();
+    who.append(span, out);
+  }
+
+  // ---- Settings (Firestore: userSettings/{uid}) ----
+  async function loadSettings(user) {
+    try {
+      const snap = await db.collection("userSettings").doc(user.uid).get();
+      const data = snap.exists ? snap.data() : null;
+      if (data && Array.isArray(data.enabledTools) && data.enabledTools.length) {
+        selected = new Set(data.enabledTools);
+      }
+    } catch (err) { console.warn("load settings:", err); }
+  }
+
+  function renderTools() {
+    const grid = $("toolGrid");
+    grid.textContent = "";
+    for (const tool of ALL_TOOLS) {
+      const label = document.createElement("label");
+      label.className = "tool" + (selected.has(tool) ? " on" : "");
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = selected.has(tool);
+      cb.addEventListener("change", () => {
+        cb.checked ? selected.add(tool) : selected.delete(tool);
+        label.classList.toggle("on", cb.checked);
+      });
+      const span = document.createElement("span");
+      span.textContent = tool;
+      label.append(cb, span);
+      grid.appendChild(label);
+    }
+  }
+
+  $("saveBtn").addEventListener("click", async () => {
+    if (!currentUser) return;
+    if (selected.size === 0) { $("saveMsg").textContent = "Pick at least one tool."; $("saveMsg").style.color = "var(--red)"; return; }
+    try {
+      await db.collection("userSettings").doc(currentUser.uid).set({
+        enabledTools: [...selected],
+        email: currentUser.email,
+        updatedAt: new Date().toISOString(),
+      }, { merge: true });
+      $("saveMsg").style.color = "var(--green)";
+      $("saveMsg").textContent = "Saved ✓ — now connect the extension below.";
+      syncToExtension(false);
+    } catch (err) {
+      $("saveMsg").style.color = "var(--red)";
+      $("saveMsg").textContent = "Could not save: " + err.message;
+    }
+  });
+
+  // ---- Extension handoff ----
+  function syncToExtension(loud = true) {
+    const msg = $("connectMsg");
+    if (!window.chrome?.runtime?.sendMessage) {
+      if (loud) { msg.textContent = "Open this page in Chrome with the Yukti extension installed."; msg.style.color = "var(--red)"; }
+      return;
+    }
+    if (EXTENSION_ID.startsWith("PASTE_")) {
+      if (loud) { msg.textContent = "Setup pending: add your extension ID in app.html."; msg.style.color = "var(--amber)"; }
+      return;
+    }
+    chrome.runtime.sendMessage(EXTENSION_ID, {
+      type: "SYNC_YUKTI_SETTINGS",
+      uid: currentUser.uid,
+      email: currentUser.email,
+      enabledTools: [...selected],
+    }, (res) => {
+      if (chrome.runtime.lastError || !res?.success) {
+        if (loud) { msg.textContent = "Could not reach the extension — is it installed and loaded?"; msg.style.color = "var(--red)"; }
+        return;
+      }
+      msg.textContent = `Connected ✓ Yukti now runs in ${selected.size} tool(s) as ${currentUser.email}.`;
+      msg.style.color = "var(--green)";
+    });
+  }
+  $("connectBtn").addEventListener("click", () => syncToExtension(true));
+</script>
+</body>
+</html>

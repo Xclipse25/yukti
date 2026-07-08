@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yukti — Speak it rough. Send it expert.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0b1020; --panel: #121a30; --panel2: #172038; --line: #263252;
+    --ink: #eef2ff; --muted: #8b96b8; --indigo: #6366f1; --indigo-d: #4f46e5;
+    --amber: #fbbf24; --green: #4ade80; --red: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Inter", system-ui, sans-serif; line-height: 1.6;
+  }
+  h1, h2, h3, .display { font-family: "Space Grotesk", sans-serif; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+  a { color: inherit; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11, 16, 32, 0.85); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; max-width: 1060px; margin: 0 auto; }
+  .logo { font-family: "Space Grotesk"; font-weight: 700; font-size: 22px; text-decoration: none; }
+  .logo b { color: var(--amber); }
+  .nav-links { display: flex; gap: 26px; align-items: center; font-size: 14px; }
+  .nav-links a { color: var(--muted); text-decoration: none; }
+  .nav-links a:hover { color: var(--ink); }
+  .btn {
+    display: inline-block; background: var(--indigo); color: #fff; text-decoration: none;
+    padding: 11px 22px; border-radius: 12px; font-weight: 600; font-size: 15px;
+    border: 0; cursor: pointer; font-family: "Inter";
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); background: var(--indigo-d); }
+  .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+  .btn.ghost:hover { border-color: var(--indigo); background: var(--panel); }
+
+  /* Hero */
+  .hero { padding: 72px 0 40px; position: relative; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(760px 420px at 78% -10%, rgba(99,102,241,0.22), transparent 60%);
+  }
+  .hero h1 { font-size: clamp(38px, 6vw, 62px); line-height: 1.08; letter-spacing: -1.5px; max-width: 700px; }
+  .hero h1 em { font-style: normal; color: var(--amber); }
+  .hero p.sub { color: var(--muted); font-size: 18px; margin: 18px 0 0; max-width: 620px; }
+
+  /* Live playground = the hero's proof */
+  .play { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; position: relative; }
+  @media (max-width: 800px) { .play { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 18px;
+    padding: 20px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .panel h2 { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  textarea, input[type="text"], select {
+    width: 100%; background: #0b1226; border: 1px solid var(--line); border-radius: 12px;
+    color: var(--ink); font: 14px/1.5 "JetBrains Mono", monospace; padding: 13px; resize: vertical;
+  }
+  textarea:focus, input:focus, select:focus { outline: 2px solid var(--indigo); border-color: transparent; }
+  textarea { min-height: 120px; }
+  #output { min-height: 170px; white-space: pre-wrap; font: 13.5px/1.6 "JetBrains Mono", monospace; }
+  #output:empty::before { content: "Your expert prompt appears here."; color: var(--muted); font-family: "Inter"; }
+  label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 5px; }
+  .meter { display: none; align-items: center; gap: 14px; }
+  .meter.show { display: flex; }
+  .score { font-family: "Space Grotesk"; font-size: 28px; font-weight: 700; min-width: 52px; text-align: center; }
+  .score small { display: block; font-size: 9px; font-weight: 400; color: var(--muted); letter-spacing: 1.5px; font-family: "Inter"; }
+  .bar { flex: 1; height: 9px; background: #0b1226; border-radius: 999px; overflow: hidden; border: 1px solid var(--line); }
+  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--amber), var(--green)); transition: width 0.9s cubic-bezier(0.2,0.8,0.2,1); }
+  #reason { color: var(--green); font-size: 13px; }
+  #status { color: var(--muted); font-size: 13px; min-height: 18px; }
+
+  /* Sections */
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+  .kicker { color: var(--amber); font-size: 13px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 500; }
+  section h2.title { font-size: clamp(26px, 4vw, 38px); letter-spacing: -0.5px; margin: 10px 0 14px; }
+  section p.lead { color: var(--muted); max-width: 640px; font-size: 16px; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 34px; }
+  @media (max-width: 800px) { .steps { grid-template-columns: 1fr; } }
+  .step { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .step .glyph { font-size: 26px; }
+  .step h3 { font-size: 18px; margin: 10px 0 6px; }
+  .step p { color: var(--muted); font-size: 14px; }
+
+  /* PII Shield */
+  .shield-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 34px; align-items: center; margin-top: 30px; }
+  @media (max-width: 800px) { .shield-grid { grid-template-columns: 1fr; } }
+  .redact-demo { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; font: 13px/1.9 "JetBrains Mono", monospace; }
+  .redact-demo .row-label { font-family: "Inter"; font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; display: block; margin: 14px 0 4px; }
+  .redact-demo .row-label:first-child { margin-top: 0; }
+  .chip { background: #2a1e0a; color: var(--amber); border: 1px solid #6b5416; border-radius: 6px; padding: 1px 7px; font-size: 12px; }
+  .chip.real { background: #10321f; color: var(--green); border-color: #1d5a38; }
+  .shield-points { display: flex; flex-direction: column; gap: 14px; }
+  .shield-points div { display: flex; gap: 12px; align-items: flex-start; }
+  .shield-points .dot { flex-shrink: 0; width: 26px; height: 26px; border-radius: 999px; background: var(--indigo-d); display: grid; place-items: center; font-size: 13px; margin-top: 2px; }
+  .shield-points p { color: var(--muted); font-size: 14.5px; }
+  .shield-points b { color: var(--ink); }
+
+  /* Tools */
+  .tool-cloud { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .tool-cloud span { background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 8px 18px; font-size: 14px; color: var(--muted); }
+  .tool-cloud span.hot { color: var(--ink); border-color: var(--indigo); }
+
+  /* CTA */
+  .cta-box { background: var(--panel2); border: 1px solid var(--line); border-radius: 22px; padding: 46px 34px; text-align: center; margin-top: 8px; }
+  .cta-box h2 { font-size: clamp(24px, 4vw, 34px); }
+  .cta-box p { color: var(--muted); margin: 12px auto 26px; max-width: 480px; }
+
+  footer { border-top: 1px solid var(--line); padding: 30px 0 44px; color: var(--muted); font-size: 13px; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  @media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+  :focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">Yukti<b>✦</b></a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#shield">PII Shield</a>
+      <a href="#tools">Tools</a>
+      <a class="btn" href="/app.html">Sign in · Get the extension</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Speak it rough.<br /><em>Send it expert.</em></h1>
+    <p class="sub">Yukti lives inside ChatGPT, Claude, Gemini and 15+ AI tools. Type or speak a rough thought — one click turns it into the prompt an expert would have written. On every message.</p>
+
+    <div class="play">
+      <div class="panel">
+        <h2>Try it — your rough prompt</h2>
+        <textarea id="rough" placeholder="e.g. make me a workout plan im busy and skinny"></textarea>
+        <div>
+          <label for="model">Target AI</label>
+          <select id="model">
+            <option value="chatgpt">ChatGPT</option>
+            <option value="claude">Claude</option>
+            <option value="gemini">Gemini</option>
+            <option value="copilot">Copilot</option>
+            <option value="midjourney">Midjourney (image)</option>
+          </select>
+        </div>
+        <button class="btn" id="go">✨ Enhance</button>
+        <p id="status"></p>
+      </div>
+      <div class="panel">
+        <h2>Expert version</h2>
+        <div class="meter" id="meter">
+          <div class="score" id="before" style="color:var(--amber)">–<small>BEFORE</small></div>
+          <div class="bar"><i id="fill"></i></div>
+          <div class="score" id="after" style="color:var(--green)">–<small>AFTER</small></div>
+        </div>
+        <p id="reason"></p>
+        <div id="output"></div>
+        <button class="btn ghost" id="copy" style="display:none">Copy prompt</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="how">
+  <div class="wrap">
+    <span class="kicker">How it works</span>
+    <h2 class="title">No new app. No copy-paste. It's just there.</h2>
+    <div class="steps">
+      <div class="step"><div class="glyph">🎤</div><h3>Type or speak</h3><p>Write roughly, in English, Hindi, Hinglish, Telugu or Tamil — or just say it out loud. Half-formed thoughts are fine. That's the point.</p></div>
+      <div class="step"><div class="glyph">✨</div><h3>One click</h3><p>Yukti rewrites your prompt in place — tuned for the exact AI you're using, with your context woven in. Undo anytime.</p></div>
+      <div class="step"><div class="glyph">🧠</div><h3>It learns you</h3><p>Your stack, your style, your language — learned on your device, visible in your settings, deletable anytime. Every day it gets more yours.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="shield">
+  <div class="wrap">
+    <span class="kicker">PII Shield</span>
+    <h2 class="title">Your private data never leaves your browser.</h2>
+    <p class="lead">Before your prompt goes anywhere, Yukti blacks out the private parts — like redacting a letter before sending it to an editor — and fills them back in when the polished version returns. All inside your browser.</p>
+
+    <div class="shield-grid">
+      <div class="redact-demo">
+        <span class="row-label">You type</span>
+        email <span class="chip real">priya@company.com</span> that her card <span class="chip real">4111 1111 1111 1111</span> was charged twice
+        <span class="row-label">What actually leaves your browser</span>
+        Write a professional email to <span class="chip">[EMAIL_1]</span> explaining that her card <span class="chip">[CARD_1]</span> was charged twice…
+        <span class="row-label">What lands back in your chat box</span>
+        Write a professional email to <span class="chip real">priya@company.com</span> explaining that her card <span class="chip real">4111 1111 1111 1111</span> was charged twice…
+      </div>
+      <div class="shield-points">
+        <div><span class="dot">🔍</span><p><b>Detected locally.</b> Emails, phone numbers, card numbers and secret keys are found by Yukti on your device — no server involved.</p></div>
+        <div><span class="dot">🏷️</span><p><b>Swapped for codenames.</b> Only the codenamed version travels to the enhancement engine. Yukti's servers never see the real values.</p></div>
+        <div><span class="dot">🔓</span><p><b>Restored at home.</b> When the expert prompt returns, your browser swaps the real values back in. Your final prompt is complete — and nothing private ever left.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tools">
+  <div class="wrap">
+    <span class="kicker">Works where you work</span>
+    <h2 class="title">One layer above every AI.</h2>
+    <p class="lead">Pick your tools in the dashboard — Yukti activates only where you want it, and carries your conversation context between them.</p>
+    <div class="tool-cloud">
+      <span class="hot">ChatGPT</span><span class="hot">Claude</span><span class="hot">Gemini</span><span class="hot">Copilot</span>
+      <span>Perplexity</span><span>DeepSeek</span><span>Mistral</span><span>Grok</span><span>Poe</span><span>Meta AI</span>
+      <span>HuggingChat</span><span>Midjourney</span><span>Leonardo</span><span>Ideogram</span><span>Krea</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-box">
+      <h2>Free. Private. Yours in two minutes.</h2>
+      <p>Sign in, choose your AI tools, and get the extension. 30 enhancements a day, on us.</p>
+      <a class="btn" href="/app.html">Sign in · Get the extension</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Yukti✦ — Think better. Build faster.</span>
+    <span>Built in India · <a href="/app.html">Dashboard</a></span>
+  </div>
+</footer>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const deviceId = localStorage.getItem("yuktiDevice") ||
+    (localStorage.setItem("yuktiDevice", "pg-" + Math.random().toString(36).slice(2)),
+     localStorage.getItem("yuktiDevice"));
+
+  $("go").addEventListener("click", enhance);
+  $("rough").addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") enhance(); });
+  $("copy").addEventListener("click", () => {
+    navigator.clipboard.writeText($("output").textContent);
+    $("copy").textContent = "Copied ✓";
+    setTimeout(() => ($("copy").textContent = "Copy prompt"), 1500);
+  });
+
+  async function enhance() {
+    const prompt = $("rough").value.trim();
+    if (prompt.length < 3) { $("status").textContent = "Type a rough prompt first."; return; }
+    $("go").disabled = true;
+    $("status").textContent = "Yukti is thinking…";
+    $("output").textContent = ""; $("reason").textContent = "";
+    $("meter").classList.remove("show"); $("copy").style.display = "none";
+    try {
+      const res = await fetch("/api/enhance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, targetModel: $("model").value, deviceId }),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message || data.error);
+      $("output").textContent = data.prompt;
+      $("copy").style.display = "inline-block";
+      $("reason").textContent = data.reason ? "▲ " + data.reason : "";
+      $("status").textContent = data.remaining != null ? data.remaining + " free enhancements left today" : "";
+      if (data.originalScore != null) {
+        $("meter").classList.add("show");
+        $("before").firstChild.textContent = data.originalScore;
+        $("after").firstChild.textContent = data.score;
+        requestAnimationFrame(() => { $("fill").style.width = data.score + "%"; });
+      }
+    } catch (err) {
+      $("status").textContent = "Could not enhance: " + err.message;
+    } finally { $("go").disabled = false; }
+  }
+</script>
+</body>
+</html>
