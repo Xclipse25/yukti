@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yukti — Speak it rough. Send it expert.</title>
+<link rel="icon" type="image/svg+xml" href="icon.svg" />
 <script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -15,6 +16,8 @@
   .glow--a { width: 520px; height: 520px; top: -220px; left: -120px; background: radial-gradient(circle, rgba(99,102,241,0.28), transparent 70%); }
   .glow--b { width: 460px; height: 460px; top: -160px; right: -160px; background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%); animation-delay: -8s; }
   @keyframes drift { from { transform: translate(0, 0); } to { transform: translate(40px, 30px); } }
+  .mark-watermark { position: absolute; top: -70px; right: -50px; width: 420px; height: 420px; opacity: 0.07; z-index: -1; animation: spin-slow 100s linear infinite; pointer-events: none; }
+  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
   .js .enter { opacity: 0; transform: translateY(18px); animation: enter 0.8s var(--ease) forwards; }
   @keyframes enter { to { opacity: 1; transform: none; } }
@@ -84,7 +87,19 @@
 
 <nav>
   <div class="nav-inner">
-    <a class="logo" href="#"><span class="dot"></span>Yukti</a>
+    <a class="logo" href="#">
+      <span class="mark">
+        <svg viewBox="0 0 32 32" width="22" height="22" fill="none" aria-hidden="true">
+          <defs><linearGradient id="markGradNav" x1="6" y1="6" x2="16" y2="27" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#f5f5f7"/><stop offset="1" stop-color="#6366f1"/>
+          </linearGradient></defs>
+          <path d="M8 8 L16 17 L24 8" stroke="url(#markGradNav)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 17 L16 25" stroke="url(#markGradNav)" stroke-width="2.6" stroke-linecap="round"/>
+          <circle class="mark-node" cx="16" cy="17" r="2.6" fill="#6366f1"/>
+        </svg>
+      </span>
+      Yukti
+    </a>
     <div class="nav-links">
       <a href="#how">How it works</a>
       <a href="#shield">PII Shield</a>
@@ -97,6 +112,14 @@
 <header class="hero">
   <div class="glow glow--a" aria-hidden="true"></div>
   <div class="glow glow--b" aria-hidden="true"></div>
+  <svg class="mark-watermark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+    <defs><linearGradient id="markGradHero" x1="6" y1="6" x2="16" y2="27" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f5f5f7"/><stop offset="1" stop-color="#6366f1"/>
+    </linearGradient></defs>
+    <path d="M8 8 L16 17 L24 8" stroke="url(#markGradHero)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M16 17 L16 25" stroke="url(#markGradHero)" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="16" cy="17" r="1.4" fill="#6366f1"/>
+  </svg>
   <div class="wrap">
     <h1 class="enter e1">Speak it rough.<br /><span>Send it expert.</span></h1>
     <p class="sub enter e2">Yukti lives inside ChatGPT, Claude, Gemini and 15+ AI tools. Type or speak a rough thought — one click turns it into the prompt an expert would have written. On every message.</p>

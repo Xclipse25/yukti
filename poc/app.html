@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yukti — Dashboard</title>
+<link rel="icon" type="image/svg+xml" href="icon.svg" />
 <script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -50,7 +51,19 @@
 
 <nav>
   <div class="nav-inner wrap--narrow">
-    <a class="logo" href="/"><span class="dot"></span>Yukti</a>
+    <a class="logo" href="/">
+      <span class="mark">
+        <svg viewBox="0 0 32 32" width="22" height="22" fill="none" aria-hidden="true">
+          <defs><linearGradient id="markGradNav" x1="6" y1="6" x2="16" y2="27" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#f5f5f7"/><stop offset="1" stop-color="#6366f1"/>
+          </linearGradient></defs>
+          <path d="M8 8 L16 17 L24 8" stroke="url(#markGradNav)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 17 L16 25" stroke="url(#markGradNav)" stroke-width="2.6" stroke-linecap="round"/>
+          <circle class="mark-node" cx="16" cy="17" r="2.6" fill="#6366f1"/>
+        </svg>
+      </span>
+      Yukti
+    </a>
     <div class="who" id="who"></div>
   </div>
 </nav>

@@ -49,8 +49,9 @@ nav.scrolled { border-bottom-color: var(--border); background: rgba(5,5,5,0.82);
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 24px; max-width: 1120px; margin: 0 auto; }
 .nav-inner.wrap--narrow { max-width: 860px; }
 .logo { display: flex; align-items: center; gap: 9px; font-family: "Space Grotesk"; font-weight: 700; font-size: 18px; letter-spacing: -0.01em; text-decoration: none; color: var(--ink); }
-.logo .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px 1px var(--accent); animation: pulse-dot 2.4s ease-in-out infinite; flex-shrink: 0; }
-@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+.mark { display: inline-flex; flex-shrink: 0; }
+.mark-node { filter: drop-shadow(0 0 5px rgba(99,102,241,0.85)); animation: pulse-dot 2.4s ease-in-out infinite; transform-origin: center; }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 .nav-links { display: flex; gap: 26px; align-items: center; font-size: 14px; }
 .nav-links a:not(.btn) { color: var(--ink-dim); text-decoration: none; transition: color 0.2s var(--ease); }
 .nav-links a:not(.btn):hover { color: var(--ink); }
