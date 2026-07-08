@@ -6,7 +6,7 @@
  * After `vercel deploy`, put your URL below.
  */
 
-const YUKTI_API = "https://YOUR-PROJECT.vercel.app/api/enhance";
+const YUKTI_API = "https://yukti-psi.vercel.app/api/enhance";
 
 async function getDeviceId() {
   const { yuktiDeviceId } = await chrome.storage.local.get(["yuktiDeviceId"]);
