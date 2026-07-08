@@ -598,13 +598,20 @@ function scheduleReposition() {
   });
 }
 
-function makeBtn(id, text, title, onClick) {
+// Brand mark — two lines converging into one, echoing "rough input becomes one expert output."
+const YUKTI_MARK_SVG = `<svg viewBox="0 0 32 32" width="15" height="15" fill="none" aria-hidden="true">
+  <path d="M8 8 L16 17 L24 8" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 17 L16 25" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/>
+  <circle cx="16" cy="17" r="2.9" fill="#fff"/>
+</svg>`;
+
+function makeBtn(id, content, title, onClick, isHTML) {
   const b = document.createElement("button");
   b.id = id;
   b.type = "button";
   b.className = "yukti-btn";
   b.title = title;
-  b.textContent = text;
+  if (isHTML) b.innerHTML = content; else b.textContent = content;
   b.addEventListener("mousedown", (e) => { e.preventDefault(); e.stopPropagation(); });
   b.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); onClick(); });
   return b;
@@ -616,7 +623,7 @@ function createCluster() {
   cluster.id = "yukti-cluster";
 
   cluster.appendChild(makeBtn("yukti-btn-voice", "🎤", "Speak your rough prompt — Yukti enhances it", toggleVoice));
-  cluster.appendChild(makeBtn("yukti-btn-enhance", "✨", "Enhance this prompt (Ctrl+M)", enhanceNow));
+  cluster.appendChild(makeBtn("yukti-btn-enhance", YUKTI_MARK_SVG, "Enhance this prompt (Ctrl+M)", enhanceNow, true));
   cluster.appendChild(makeBtn("yukti-btn-handoff", "⇄", "Continue this conversation in another AI", toggleHandoffMenu));
 
   document.body.appendChild(cluster);
