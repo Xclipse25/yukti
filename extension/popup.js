@@ -95,15 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderMemory();
 
-  // v3.2: show dashboard-synced account + tools
-  chrome.storage.sync.get({ yuktiTools: [], yuktiAccount: null }, (r) => {
-    const stats = document.getElementById("stats");
-    if (r.yuktiAccount?.email) {
-      stats.textContent += (stats.textContent ? "  ·  " : "") +
-        r.yuktiAccount.email + " · " + (r.yuktiTools.length || "all") + " tools";
-    }
-  });
-
   document.getElementById("saveBtn").addEventListener("click", () => {
     chrome.storage.sync.set(
       {

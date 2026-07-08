@@ -62,12 +62,5 @@
     "16": "icons/logo1.png",
     "48": "icons/logo1.png",
     "128": "icons/logo1.png"
-  },
-  "externally_connectable": {
-    "matches": [
-      "https://yukti-psi.vercel.app/*",
-      "https://*.vercel.app/*",
-      "http://localhost/*"
-    ]
   }
 }

@@ -58,19 +58,3 @@ chrome.commands.onCommand.addListener(async (command) => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (tab?.id) chrome.tabs.sendMessage(tab.id, { type: "YUKTI_ENHANCE_INLINE" }).catch(() => {});
 });
-
-// ---------------------------------------------------------------------------
-// v3.2: website → extension settings sync (dashboard "Connect" button)
-// ---------------------------------------------------------------------------
-chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
-  if (message.type === "SYNC_YUKTI_SETTINGS") {
-    chrome.storage.sync.set(
-      {
-        yuktiTools: Array.isArray(message.enabledTools) ? message.enabledTools : [],
-        yuktiAccount: { uid: message.uid || null, email: message.email || null },
-      },
-      () => sendResponse({ success: true })
-    );
-    return true;
-  }
-});

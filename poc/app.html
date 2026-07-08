@@ -58,7 +58,6 @@
   ol.install { margin: 16px 0 0 20px; color: var(--muted); font-size: 14px; display: flex; flex-direction: column; gap: 8px; }
   ol.install b { color: var(--ink); }
   code { background: #0b1226; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; font-size: 12.5px; color: var(--amber); }
-  #connectMsg { font-size: 13px; margin-top: 10px; min-height: 18px; }
   .locked { opacity: 0.45; pointer-events: none; filter: saturate(0.6); }
   :focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; }
 </style>
@@ -110,16 +109,6 @@
       </ol>
     </div>
 
-    <div class="card" id="connectCard">
-      <span class="kicker">Step 3</span>
-      <h2>Connect the extension</h2>
-      <p class="sub">Links this account to the extension so your tool choices apply everywhere, instantly.</p>
-      <div class="save-row">
-        <button class="btn" id="connectBtn">Connect Yukti extension</button>
-      </div>
-      <p id="connectMsg"></p>
-    </div>
-
   </div>
 </div>
 
@@ -135,8 +124,6 @@
     projectId: "promptpilot-3a012",
     appId: "1:195550709543:web:a1d1e554bb8287e38b8b02", // from Firebase console
   };
-  // Your extension's ID from chrome://extensions (after loading it once):
-  const EXTENSION_ID = "ijhkkjgcnmopdjamdjoegcajgcapjigp";
 
   const ALL_TOOLS = [
     "ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity", "DeepSeek",
@@ -230,40 +217,12 @@
         updatedAt: new Date().toISOString(),
       }, { merge: true });
       $("saveMsg").style.color = "var(--green)";
-      $("saveMsg").textContent = "Saved ✓ — now connect the extension below.";
-      syncToExtension(false);
+      $("saveMsg").textContent = "Saved ✓";
     } catch (err) {
       $("saveMsg").style.color = "var(--red)";
       $("saveMsg").textContent = "Could not save: " + err.message;
     }
   });
-
-  // ---- Extension handoff ----
-  function syncToExtension(loud = true) {
-    const msg = $("connectMsg");
-    if (!window.chrome?.runtime?.sendMessage) {
-      if (loud) { msg.textContent = "Open this page in Chrome with the Yukti extension installed."; msg.style.color = "var(--red)"; }
-      return;
-    }
-    if (EXTENSION_ID.startsWith("PASTE_")) {
-      if (loud) { msg.textContent = "Setup pending: add your extension ID in app.html."; msg.style.color = "var(--amber)"; }
-      return;
-    }
-    chrome.runtime.sendMessage(EXTENSION_ID, {
-      type: "SYNC_YUKTI_SETTINGS",
-      uid: currentUser.uid,
-      email: currentUser.email,
-      enabledTools: [...selected],
-    }, (res) => {
-      if (chrome.runtime.lastError || !res?.success) {
-        if (loud) { msg.textContent = "Could not reach the extension — is it installed and loaded?"; msg.style.color = "var(--red)"; }
-        return;
-      }
-      msg.textContent = `Connected ✓ Yukti now runs in ${selected.size} tool(s) as ${currentUser.email}.`;
-      msg.style.color = "var(--green)";
-    });
-  }
-  $("connectBtn").addEventListener("click", () => syncToExtension(true));
 </script>
 </body>
 </html>
