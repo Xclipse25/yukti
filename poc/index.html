@@ -58,6 +58,12 @@
   .step h3 { font-size: 18px; margin: 14px 0 8px; font-weight: 600; }
   .step p { color: var(--ink-dim); font-size: 14.5px; }
 
+  /* Handoff */
+  .handoff-demo { padding: 30px; display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; }
+  .handoff-chip-row { display: flex; align-items: center; gap: 16px; }
+  .handoff-arrow { font-size: 22px; color: var(--accent); }
+  .handoff-caption { color: var(--ink-dim); font: 13px/1.7 "JetBrains Mono", monospace; }
+
   /* PII Shield */
   .shield-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 34px; align-items: center; margin-top: 36px; }
   @media (max-width: 800px) { .shield-grid { grid-template-columns: 1fr; } }
@@ -103,6 +109,7 @@
     </a>
     <div class="nav-links">
       <a href="#how">How it works</a>
+      <a href="#handoff">Handoff</a>
       <a href="#shield">PII Shield</a>
       <a href="#tools">Tools</a>
       <a class="btn" href="/app.html">Sign in · Get the extension</a>
@@ -124,7 +131,7 @@
   </svg>
   <div class="wrap">
     <h1 class="enter e1">Speak it rough.<br /><span>Send it expert.</span></h1>
-    <p class="sub enter e2">Yukti lives inside ChatGPT, Claude, Gemini and 15+ AI tools. Type or speak a rough thought — one click turns it into the prompt an expert would have written. On every message.</p>
+    <p class="sub enter e2">Yukti lives inside ChatGPT, Claude, Gemini and 15+ AI tools. Type or speak a rough thought and get an expert prompt back — while Yukti learns your style, shields your private data, and lets you carry the conversation to another AI without starting over.</p>
 
     <div class="play enter e3">
       <div class="panel card">
@@ -166,6 +173,30 @@
       <div class="step reveal d1"><div class="num">01</div><h3>Type or speak</h3><p>Write roughly, in English, Hindi, Hinglish, Telugu or Tamil — or just say it out loud. Half-formed thoughts are fine. That's the point.</p></div>
       <div class="step reveal d2"><div class="num">02</div><h3>One click</h3><p>Yukti rewrites your prompt in place — tuned for the exact AI you're using, with your context woven in. Undo anytime.</p></div>
       <div class="step reveal d3"><div class="num">03</div><h3>It learns you</h3><p>Your stack, your style, your language — learned on your device, visible in your settings, deletable anytime. Every day it gets more yours.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="handoff">
+  <div class="wrap">
+    <span class="kicker reveal">Handoff</span>
+    <h2 class="title reveal d1">Take the conversation with you.</h2>
+    <p class="lead reveal d1">Hit a wall in one AI, or just want a second opinion? The ⇄ button captures your conversation and hands it to another tool — you're not stuck re-explaining everything from scratch.</p>
+
+    <div class="shield-grid">
+      <div class="handoff-demo card reveal d2">
+        <div class="handoff-chip-row">
+          <span class="tool-tag hot">ChatGPT</span>
+          <span class="handoff-arrow">⇄</span>
+          <span class="tool-tag hot">Claude</span>
+        </div>
+        <p class="handoff-caption">"I'm continuing a conversation that started in ChatGPT. Here is the context so far…"</p>
+      </div>
+      <div class="shield-points reveal d3">
+        <div><span class="dot">💬</span><p><b>Captures the thread.</b> Yukti reads back through the conversation and writes a clean context summary — not a raw copy-paste dump.</p></div>
+        <div><span class="dot">🎯</span><p><b>You choose the tools.</b> Only the AI tools you've enabled in your dashboard show up in the ⇄ menu.</p></div>
+        <div><span class="dot">📋</span><p><b>One paste, not a re-explain.</b> Copied straight to your clipboard — open the new tool, paste, and continue exactly where you left off.</p></div>
+      </div>
     </div>
   </div>
 </section>
