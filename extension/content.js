@@ -598,12 +598,11 @@ function scheduleReposition() {
   });
 }
 
-// Brand mark — three equal spokes at 120°, so the .yukti-busy spin below reads as a clean wheel.
+// Brand mark — a "Y": two arms converging into one stem.
 const YUKTI_MARK_SVG = `<svg viewBox="0 0 32 32" width="15" height="15" fill="none" aria-hidden="true">
-  <line x1="16" y1="16" x2="16" y2="6.5" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/>
-  <line x1="16" y1="16" x2="24.2" y2="20.8" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/>
-  <line x1="16" y1="16" x2="7.8" y2="20.8" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/>
-  <circle cx="16" cy="16" r="2.9" fill="#fff"/>
+  <path d="M8 8 L16 17 L24 8" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 17 L16 25" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/>
+  <circle cx="16" cy="17" r="2.9" fill="#fff"/>
 </svg>`;
 
 function makeBtn(id, content, title, onClick, isHTML) {
