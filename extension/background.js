@@ -6,11 +6,7 @@
  * After `vercel deploy`, put your URL below.
  */
 
-<<<<<<< HEAD
-const YUKTI_API = "https://YOUR-PROJECT.vercel.app/api/enhance";
-=======
 const YUKTI_API = "https://yukti-psi.vercel.app/api/enhance";
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
 
 async function getDeviceId() {
   const { yuktiDeviceId } = await chrome.storage.local.get(["yuktiDeviceId"]);
@@ -62,7 +58,6 @@ chrome.commands.onCommand.addListener(async (command) => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (tab?.id) chrome.tabs.sendMessage(tab.id, { type: "YUKTI_ENHANCE_INLINE" }).catch(() => {});
 });
-<<<<<<< HEAD
 
 // ---------------------------------------------------------------------------
 // v3.2: website → extension settings sync (dashboard "Connect" button)
@@ -79,5 +74,3 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
     return true;
   }
 });
-=======
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6

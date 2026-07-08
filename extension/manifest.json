@@ -1,11 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Yukti \u2014 One-Click Prompt Expert",
-<<<<<<< HEAD
   "version": "3.2.0",
-=======
-  "version": "3.1.0",
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
   "description": "Speak or type it rough. One click and it's an expert prompt \u2014 Yukti learns you, guards your data, and follows you across every AI.",
   "permissions": [
     "storage",
@@ -66,7 +62,6 @@
     "16": "icons/logo1.png",
     "48": "icons/logo1.png",
     "128": "icons/logo1.png"
-<<<<<<< HEAD
   },
   "externally_connectable": {
     "matches": [
@@ -74,7 +69,5 @@
       "https://*.vercel.app/*",
       "http://localhost/*"
     ]
-=======
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
   }
 }

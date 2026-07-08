@@ -520,18 +520,13 @@ function buildHandoffPrompt() {
   return parts.join("\n");
 }
 
-<<<<<<< HEAD
 async function toggleHandoffMenu() {
-=======
-function toggleHandoffMenu() {
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
   const existing = document.getElementById("yukti-handoff-menu");
   if (existing) { existing.remove(); return; }
 
   const cluster = document.getElementById("yukti-cluster");
   if (!cluster) return;
 
-<<<<<<< HEAD
   // Filter targets by the user's dashboard tool choices (if any were saved)
   const { yuktiTools } = await chrome.storage.sync.get({ yuktiTools: [] });
   const targets = HANDOFF_TARGETS.filter((t) => {
@@ -544,8 +539,6 @@ function toggleHandoffMenu() {
     return;
   }
 
-=======
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
   const menu = document.createElement("div");
   menu.id = "yukti-handoff-menu";
 
@@ -554,12 +547,7 @@ function toggleHandoffMenu() {
   label.textContent = "Continue in…";
   menu.appendChild(label);
 
-<<<<<<< HEAD
   for (const target of targets) {
-=======
-  for (const target of HANDOFF_TARGETS) {
-    if (adapter?.name === target.name) continue;
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
     const btn = document.createElement("button");
     btn.textContent = target.name;
     btn.onclick = async () => {
@@ -641,7 +629,6 @@ function createCluster() {
 
 async function init() {
   if (!adapter) return;
-<<<<<<< HEAD
   const { enabled, yuktiTools } = await chrome.storage.sync.get({ enabled: true, yuktiTools: [] });
   if (!enabled) return;
   // Dashboard tool picker: if the user chose tools, respect the list strictly.
@@ -649,10 +636,6 @@ async function init() {
     console.log("Yukti: disabled on", adapter.name, "by dashboard settings");
     return;
   }
-=======
-  const { enabled } = await chrome.storage.sync.get({ enabled: true });
-  if (!enabled) return;
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
 
   createCluster();
 

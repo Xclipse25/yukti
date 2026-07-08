@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderMemory();
 
-<<<<<<< HEAD
   // v3.2: show dashboard-synced account + tools
   chrome.storage.sync.get({ yuktiTools: [], yuktiAccount: null }, (r) => {
     const stats = document.getElementById("stats");
@@ -105,8 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-=======
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
   document.getElementById("saveBtn").addEventListener("click", () => {
     chrome.storage.sync.set(
       {
