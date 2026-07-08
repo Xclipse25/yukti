@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<<<<<<< HEAD
 <title>Yukti — Speak it rough. Send it expert.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -148,122 +147,6 @@
       <div class="panel">
         <h2>Try it — your rough prompt</h2>
         <textarea id="rough" placeholder="e.g. make me a workout plan im busy and skinny"></textarea>
-=======
-<title>Yukti — Playground</title>
-<style>
-  :root {
-    --bg: #0b1020;
-    --panel: #121a30;
-    --line: #263252;
-    --text: #eef2ff;
-    --muted: #8b96b8;
-    --accent: #6366f1;
-    --good: #4ade80;
-    --warn: #fbbf24;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-      radial-gradient(900px 480px at 85% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
-      var(--bg);
-    color: var(--text);
-    font-family: "Segoe UI", system-ui, Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    padding: 40px 20px 80px;
-  }
-  .wrap { width: min(860px, 100%); }
-
-  header { margin-bottom: 28px; }
-  .brand { display: flex; align-items: baseline; gap: 12px; }
-  h1 { margin: 0; font-size: 40px; letter-spacing: -1px; }
-  h1 .spark { color: var(--accent); }
-  .tag { color: var(--muted); font-size: 15px; margin: 6px 0 0; max-width: 560px; line-height: 1.5; }
-
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
-
-  .panel {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .panel h2 { margin: 0; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
-
-  textarea, input, select {
-    width: 100%;
-    background: #0b1226;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    color: var(--text);
-    font: inherit;
-    font-size: 14px;
-    padding: 12px;
-    resize: vertical;
-  }
-  textarea:focus, input:focus, select:focus { outline: 2px solid var(--accent); border-color: transparent; }
-  textarea { min-height: 130px; }
-  #output { min-height: 210px; white-space: pre-wrap; line-height: 1.55; font-size: 14px; color: var(--text); }
-  #output:empty::before { content: "Your enhanced prompt will appear here."; color: var(--muted); }
-
-  .row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .row > * { flex: 1; min-width: 140px; }
-  label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
-
-  button {
-    background: var(--accent);
-    color: white;
-    border: 0;
-    border-radius: 12px;
-    padding: 13px 18px;
-    font-weight: 800;
-    font-size: 15px;
-    cursor: pointer;
-    transition: transform 0.15s ease;
-  }
-  button:hover { transform: translateY(-1px); }
-  button:disabled { opacity: 0.6; cursor: wait; transform: none; }
-  .ghost { background: #232e50; }
-
-  /* Score meter — the signature moment */
-  .meter { display: none; align-items: center; gap: 14px; padding: 4px 2px; }
-  .meter.show { display: flex; }
-  .score { font-size: 30px; font-weight: 800; min-width: 58px; text-align: center; }
-  .score small { display: block; font-size: 10px; font-weight: 400; color: var(--muted); letter-spacing: 1px; }
-  .bar { flex: 1; height: 10px; background: #0b1226; border-radius: 999px; overflow: hidden; border: 1px solid var(--line); }
-  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--warn), var(--good)); transition: width 0.9s cubic-bezier(0.2, 0.8, 0.2, 1); }
-  #reason { color: var(--good); font-size: 13px; margin: 0; }
-  #status { color: var(--muted); font-size: 13px; min-height: 18px; margin: 0; }
-
-  details { border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; }
-  summary { cursor: pointer; color: var(--muted); font-size: 13px; }
-  details .row { margin-top: 10px; }
-
-  footer { margin-top: 34px; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
-  footer b { color: var(--text); }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <div class="brand"><h1>Yukti<span class="spark">✦</span></h1></div>
-    <p class="tag">Type it rough. One click, and it's the prompt an expert would have written —
-    tuned for the exact AI model you're using, with your context woven in.</p>
-  </header>
-
-  <div class="grid">
-    <div class="panel">
-      <h2>Your rough prompt</h2>
-      <textarea id="rough" placeholder="e.g. make me a workout plan im busy and skinny"></textarea>
-
-      <div class="row">
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
         <div>
           <label for="model">Target AI</label>
           <select id="model">
@@ -272,7 +155,6 @@
             <option value="gemini">Gemini</option>
             <option value="copilot">Copilot</option>
             <option value="midjourney">Midjourney (image)</option>
-<<<<<<< HEAD
           </select>
         </div>
         <button class="btn" id="go">✨ Enhance</button>
@@ -358,46 +240,6 @@
     <span>Built in India · <a href="/app.html">Dashboard</a></span>
   </div>
 </footer>
-=======
-            <option value="generic">Other</option>
-          </select>
-        </div>
-      </div>
-
-      <details>
-        <summary>Your context profile (optional — this is Yukti's superpower)</summary>
-        <div class="row">
-          <div><label for="about">About you</label><input id="about" placeholder="e.g. 3rd-year CS student" /></div>
-          <div><label for="project">Current project</label><input id="project" placeholder="e.g. React + Firebase app" /></div>
-          <div><label for="tone">Preferred tone</label><input id="tone" placeholder="e.g. concise, practical" /></div>
-        </div>
-      </details>
-
-      <button id="go">✨ Enhance</button>
-      <p id="status"></p>
-    </div>
-
-    <div class="panel">
-      <h2>Enhanced prompt</h2>
-      <div class="meter" id="meter">
-        <div class="score" id="before" style="color:var(--warn)">–<small>BEFORE</small></div>
-        <div class="bar"><i id="fill"></i></div>
-        <div class="score" id="after" style="color:var(--good)">–<small>AFTER</small></div>
-      </div>
-      <p id="reason"></p>
-      <div id="output"></div>
-      <button id="copy" class="ghost" style="display:none">Copy prompt</button>
-    </div>
-  </div>
-
-  <footer>
-    <b>This is the Yukti browser extension's engine, live.</b> In the extension there's no
-    playground — a ✨ button sits inside ChatGPT, Claude, Gemini and 25+ tools, rewrites the
-    prompt in-place on every message, remembers the conversation, and redacts sensitive data
-    locally before anything leaves your browser.
-  </footer>
-</div>
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
 
 <script>
   const $ = (id) => document.getElementById(id);
@@ -406,13 +248,7 @@
      localStorage.getItem("yuktiDevice"));
 
   $("go").addEventListener("click", enhance);
-<<<<<<< HEAD
   $("rough").addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") enhance(); });
-=======
-  $("rough").addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") enhance();
-  });
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
   $("copy").addEventListener("click", () => {
     navigator.clipboard.writeText($("output").textContent);
     $("copy").textContent = "Copied ✓";
@@ -422,26 +258,14 @@
   async function enhance() {
     const prompt = $("rough").value.trim();
     if (prompt.length < 3) { $("status").textContent = "Type a rough prompt first."; return; }
-<<<<<<< HEAD
     $("go").disabled = true;
     $("status").textContent = "Yukti is thinking…";
     $("output").textContent = ""; $("reason").textContent = "";
     $("meter").classList.remove("show"); $("copy").style.display = "none";
-=======
-
-    $("go").disabled = true;
-    $("status").textContent = "Yukti is thinking…";
-    $("output").textContent = "";
-    $("reason").textContent = "";
-    $("meter").classList.remove("show");
-    $("copy").style.display = "none";
-
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
     try {
       const res = await fetch("/api/enhance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-<<<<<<< HEAD
         body: JSON.stringify({ prompt, targetModel: $("model").value, deviceId }),
       });
       const data = await res.json();
@@ -450,27 +274,6 @@
       $("copy").style.display = "inline-block";
       $("reason").textContent = data.reason ? "▲ " + data.reason : "";
       $("status").textContent = data.remaining != null ? data.remaining + " free enhancements left today" : "";
-=======
-        body: JSON.stringify({
-          prompt,
-          targetModel: $("model").value,
-          deviceId,
-          profile: {
-            about: $("about").value.trim(),
-            project: $("project").value.trim(),
-            tone: $("tone").value.trim(),
-          },
-        }),
-      });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message || data.error);
-
-      $("output").textContent = data.prompt;
-      $("copy").style.display = "block";
-      $("reason").textContent = data.reason ? "▲ " + data.reason : "";
-      $("status").textContent = data.remaining != null ? data.remaining + " free enhancements left today" : "";
-
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
       if (data.originalScore != null) {
         $("meter").classList.add("show");
         $("before").firstChild.textContent = data.originalScore;
@@ -479,13 +282,7 @@
       }
     } catch (err) {
       $("status").textContent = "Could not enhance: " + err.message;
-<<<<<<< HEAD
     } finally { $("go").disabled = false; }
-=======
-    } finally {
-      $("go").disabled = false;
-    }
->>>>>>> 17b8447ecb7535ff20e1dd5bc66fb4cbed3956f6
   }
 </script>
 </body>
