@@ -48,8 +48,11 @@ nav {
 nav.scrolled { border-bottom-color: var(--border); background: rgba(5,5,5,0.82); }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 24px; max-width: 1120px; margin: 0 auto; }
 .nav-inner.wrap--narrow { max-width: 860px; }
-.logo { display: flex; align-items: center; gap: 9px; font-family: "Space Grotesk"; font-weight: 700; font-size: 18px; letter-spacing: -0.01em; text-decoration: none; color: var(--ink); }
-.mark { display: inline-flex; flex-shrink: 0; }
+.logo { font-family: "Space Grotesk"; font-weight: 700; font-size: 19px; letter-spacing: -0.01em; text-decoration: none; color: var(--ink); }
+/* Wordmark: the brand mark stands in for the capital "Y" in "Yukti". */
+.wordmark { display: inline-flex; align-items: baseline; gap: 0; }
+.wordmark .mark { display: inline-flex; align-items: flex-end; flex-shrink: 0; margin-right: -0.16em; }
+.wordmark .mark svg { width: 1.05em; height: 1.05em; transform: translateY(0.08em); }
 .mark-node { filter: drop-shadow(0 0 5px rgba(99,102,241,0.85)); animation: pulse-dot 2.4s ease-in-out infinite; transform-origin: center; }
 @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 .nav-links { display: flex; gap: 26px; align-items: center; font-size: 14px; }
